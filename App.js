@@ -1,21 +1,36 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import DeckListView from "./components/DeckListView";
+import { createStackNavigator } from "react-navigation";
+import Provider from "react-redux/es/components/Provider";
+import { createStore } from "redux";
+import { View } from "react-native";
+import reducer from './reducers/Reducer';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
-  }
+const MainNav = createStackNavigator({
+    DeckListView: {
+        screen: DeckListView,
+        navigationOptions: {
+            title: 'Decks',
+            headerStyle: {
+                backgroundColor: '#000'
+            },
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+});
+
+class App extends Component {
+    render() {
+        return (
+            <Provider store={createStore(reducer)}>
+                <View style={{flex: 1}} >
+                    <MainNav></MainNav>
+                </View>
+            </Provider>
+        )
+    }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

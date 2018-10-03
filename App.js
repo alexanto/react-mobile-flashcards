@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import DeckListView from "./components/DeckListView";
 import { createStackNavigator } from "react-navigation";
 import Provider from "react-redux/es/components/Provider";
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { View } from "react-native";
 import reducer from './reducers/Reducer';
+import thunk from 'redux-thunk';
 
 const MainNav = createStackNavigator({
     DeckListView: {
@@ -21,10 +22,12 @@ const MainNav = createStackNavigator({
     }
 });
 
+const store = createStore(reducer, applyMiddleware(thunk));
+
 class App extends Component {
     render() {
         return (
-            <Provider store={createStore(reducer)}>
+            <Provider store={store}>
                 <View style={{flex: 1}} >
                     <MainNav></MainNav>
                 </View>

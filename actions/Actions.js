@@ -1,12 +1,13 @@
 import * as helpers from '../utils/helpers';
 
-export const GET_DECKS = 'GET_DECKS';
+export const LOAD_DECKS = 'LOAD_DECKS';
 
-export function getDecks() {
+export function loadDecks() {
     return (dispatch) => {
         return helpers.getDecks().then(decks => {
+            console.log('action', decks);
             dispatch({
-                type: GET_DECKS,
+                type: LOAD_DECKS,
                 decks
             });
         });

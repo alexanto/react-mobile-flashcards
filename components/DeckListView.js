@@ -2,11 +2,17 @@ import React, { Component } from 'react'
 import { ScrollView, Text, View } from "react-native";
 import { connect } from 'react-redux'
 import { getDecks } from "../selectors/Selectors";
+import { bindActionCreators } from "redux";
+import { loadDecks } from "../actions/Actions";
 
 class DeckListView extends Component {
 
+    componentDidMount() {
+       this.props.loadDecks();
+    }
+
     render() {
-          console.log(this.props.decks);
+          console.log('decks',this.props.decks);
       return (
             <ScrollView style={{flex: 1}}>
                 {this.props.decks.map(deck =>
@@ -24,6 +30,7 @@ class DeckListView extends Component {
 export default connect(
     (state) => ({
         decks: getDecks(state)
-    })
+    }),
+    (dispatch) => bindActionCreators({loadDecks}, dispatch)
 )(DeckListView);
 

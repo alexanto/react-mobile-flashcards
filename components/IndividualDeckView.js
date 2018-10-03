@@ -61,7 +61,7 @@ class IndividualDeckView extends Component {
                             Add Card
                         </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b'>
+                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView')}>
                         <Text style={styles.buttonText}>Start Quiz</Text>
                     </TouchableHighlight>
                 </View>

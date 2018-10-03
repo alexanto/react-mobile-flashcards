@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { ScrollView, Text, View, StyleSheet } from "react-native";
+import React, { Component } from 'react';
+import { ScrollView, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { connect } from 'react-redux'
 import { getDecks } from "../selectors/Selectors";
 import { bindActionCreators } from "redux";
@@ -30,13 +30,15 @@ class DeckListView extends Component {
     }
 
     render() {
-      return (
+        const {navigation} = this.props;
+        return (
             <ScrollView style={{flex: 1}}>
                 {this.props.decks.map(deck =>
-                        <View style={styles.deck} key={deck.title}>
+                    <TouchableOpacity onPress={() => navigation.navigate('IndividualDeckView', {deck})}  style={styles.deck} key={deck.title}>
                             <Text style={styles.title}>{deck.title}</Text>
                             <Text style={styles.count}>{deck.questions.length} questions</Text>
-                        </View>
+
+                    </TouchableOpacity>
                 )}
             </ScrollView>
         )

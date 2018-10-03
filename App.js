@@ -6,6 +6,7 @@ import { applyMiddleware, createStore } from "redux";
 import { View } from "react-native";
 import reducer from './reducers/Reducer';
 import thunk from 'redux-thunk';
+import IndividualDeckView from "./components/IndividualDeckView";
 
 const MainNav = createStackNavigator({
     DeckListView: {
@@ -19,6 +20,9 @@ const MainNav = createStackNavigator({
                 color: '#fff'
             }
         }
+    },
+    IndividualDeckView: {
+        screen: IndividualDeckView
     }
 });
 

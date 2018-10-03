@@ -29,8 +29,13 @@ const Tabs = createMaterialTopTabNavigator(
     },
     {
         tabBarOptions : {
-            style : {
+            inactiveTintColor: '#fff',
+            style: {
+                backgroundColor: '#000',
                 paddingTop: Constants.statusBarHeight,
+            },
+            indicatorStyle: {
+                backgroundColor: '#ff0000'
             }
         }
     }

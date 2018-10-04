@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        backgroundColor: '#fff'
     },
     title: {
         fontSize: 42,
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     buttonText: {
-        fontSize: 16,
+        fontSize: 24    ,
         fontWeight: 'bold',
         color: '#fff'
     },
@@ -62,7 +63,7 @@ class IndividualDeckView extends Component {
                             Add Card
                         </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView', {index: 0, questionCount:  length})}>
+                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView', {index: 0, questionCount:  length, title: deck.title})}>
                         <Text style={styles.buttonText}>Start Quiz</Text>
                     </TouchableHighlight>
                 </View>

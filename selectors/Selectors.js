@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import * as _ from 'lodash';
 
 const decksSelector = state => state.decks;
 
@@ -14,3 +13,12 @@ export const getDeck = createSelector(
         title => decks.filter(question => question.title === title)
     )
 );
+
+export const getQuestion = createSelector(
+    state => state.decks,
+    decks =>
+        (title, index) => {
+            return decks[title].questions[index]
+        }
+);
+

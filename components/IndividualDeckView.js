@@ -50,18 +50,19 @@ class IndividualDeckView extends Component {
     render() {
         const {navigation} = this.props;
         const deck = navigation.state.params.deck;
+        const length = deck.questions.length;
 
         return (
             <View style={styles.container}>
                     <Text style={styles.title}>{deck.title}</Text>
-                    <Text style={styles.count}>{deck.questions.length} cards</Text>
+                    <Text style={styles.count}>{length} cards</Text>
                 <View style={styles.buttons}>
                     <TouchableHighlight style={styles.button} underlayColor='#d4271b'>
                         <Text style={styles.buttonText}>
                             Add Card
                         </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView')}>
+                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView', {index: 0, questionCount:  length})}>
                         <Text style={styles.buttonText}>Start Quiz</Text>
                     </TouchableHighlight>
                 </View>

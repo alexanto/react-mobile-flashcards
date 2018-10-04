@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
         color: '#ff0000',
         marginTop: 20,
         fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignSelf: 'center'
     },
     buttons: {
         marginTop: 'auto',
@@ -64,6 +65,12 @@ const styles = StyleSheet.create({
 });
 
 class QuizView extends Component {
+    constructor() {
+        super();
+        this.state = {
+            showAnswer: false
+        }
+    }
     static navigationOptions = ({ navigation }) => {
         const deck = navigation.state.params.deck;
         return {
@@ -77,15 +84,20 @@ class QuizView extends Component {
     markIfCorrect = (isCorrect) => {
         const {navigation} = this.props;
         const {index, questionCount, title} = navigation.state.params;
+        this.setState({
+            showAnswer: false
+        });
         navigation.navigate('QuizView', {index: index + 1, questionCount, title});
     };
 
     render() {
+        const {showAnswer} = this.state;
         const {navigation, questionByIndex} = this.props;
         const index = navigation.state.params.index;
         const questionCount = navigation.state.params.questionCount;
         const deckTitle = navigation.state.params.title;
         let quizContent;
+        let content;
         const question = questionByIndex(deckTitle, index);
 
         {
@@ -104,25 +116,35 @@ class QuizView extends Component {
                         </View>
                     </View>
             } else {
-                quizContent =
-                    <View>
-                        <View style={styles.container}>
-                            <Text style={styles.progress}>{index + 1}/{questionCount}</Text>
-                            <Text style={styles.question}>{question.question}</Text>
-                            <TouchableOpacity onPress={() => {}}>
-                                <Text style={styles.answer}>Answer</Text>
-                            </TouchableOpacity>
-                            <View style={styles.buttons}>
-                                <TouchableHighlight style={[styles.button, styles.correct]} underlayColor='#336633' onPress={() => this.markIfCorrect(true)}>
-                                    <Text style={styles.buttonText}>Correct</Text>
-                                </TouchableHighlight>
-                                <TouchableHighlight  style={[styles.button, styles.incorrect]} underlayColor='#d4271b'  onPress={() => this.markIfCorrect(false)}>
-                                    <Text style={styles.buttonText}>Incorrect</Text>
-                                </TouchableHighlight>
-                            </View>
-                        </View>
-                        <View>
 
+                if(showAnswer) {
+                    content =
+                        <View>
+                            <Text style={styles.question}>{question.answer}</Text>
+                            <TouchableOpacity onPress={() => this.setState({showAnswer: false})}>
+                                <Text style={styles.answer}>Question</Text>
+                            </TouchableOpacity>
+                        </View>
+                    } else {
+                        content =
+                            <View>
+                                <Text style={styles.question}>{question.question}</Text>
+                                <TouchableOpacity onPress={() => this.setState({showAnswer: true})}>
+                                    <Text style={styles.answer}>Answer</Text>
+                                </TouchableOpacity>
+                            </View>
+                    }
+                quizContent =
+                    <View style={styles.container}>
+                        <Text style={styles.progress}>{index + 1}/{questionCount}</Text>
+                        {content}
+                        <View style={styles.buttons}>
+                            <TouchableHighlight style={[styles.button, styles.correct]} underlayColor='#336633' onPress={() => this.markIfCorrect(true)}>
+                                <Text style={styles.buttonText}>Correct</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight  style={[styles.button, styles.incorrect]} underlayColor='#d4271b'  onPress={() => this.markIfCorrect(false)}>
+                                <Text style={styles.buttonText}>Incorrect</Text>
+                            </TouchableHighlight>
                         </View>
                     </View>
             }

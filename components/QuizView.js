@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
-import { getQuestion } from "../selectors/Selectors";
+import { correctAnswerCountSelector, getQuestion } from "../selectors/Selectors";
+import { bindActionCreators } from "redux";
+import { clearQuizAnswer, saveQuizAnswer } from "../actions/Actions";
 
 const styles = StyleSheet.create({
     container: {
@@ -82,17 +84,35 @@ class QuizView extends Component {
         }
     };
     markIfCorrect = (isCorrect) => {
-        const {navigation} = this.props;
+        const {navigation, saveQuizAnswer} = this.props;
         const {index, questionCount, title} = navigation.state.params;
         this.setState({
             showAnswer: false
         });
+        saveQuizAnswer(isCorrect);
         navigation.navigate('QuizView', {index: index + 1, questionCount, title});
+    };
+
+    goBack = () => {
+        const {navigation, clearQuizAnswer} = this.props;
+        navigation.goBack();
+        setTimeout(() => {
+            clearQuizAnswer();
+        }, 200);
+    };
+
+    startOver = () => {
+        const {navigation, clearQuizAnswer} = this.props;
+        const {questionCount, title} = navigation.state.params;
+        navigation.navigate('QuizView', {index: 0, questionCount, title: title});
+        setTimeout(() => {
+            clearQuizAnswer();
+        }, 200);
     };
 
     render() {
         const {showAnswer} = this.state;
-        const {navigation, questionByIndex} = this.props;
+        const {navigation, questionByIndex, correctAnswerCount} = this.props;
         const index = navigation.state.params.index;
         const questionCount = navigation.state.params.questionCount;
         const deckTitle = navigation.state.params.title;
@@ -100,17 +120,19 @@ class QuizView extends Component {
         let content;
         const question = questionByIndex(deckTitle, index);
 
+        const percentageCorrect = Math.round((correctAnswerCount / questionCount) * 100);
+
         {
             if (index === questionCount) {
                 quizContent =
                     <View style={styles.container}>
-                        <Text style={styles.results}>X correct out of Y questions</Text>
-                        <Text style={styles.percentage}>80%</Text>
+                        <Text style={styles.results}>{correctAnswerCount} correct out of {questionCount} questions</Text>
+                        <Text style={styles.percentage}>{percentageCorrect}%</Text>
                         <View style={styles.buttons}>
-                            <TouchableHighlight style={[styles.button, styles.incorrect]} underlayColor='#336633' onPress={() => navigation.navigate('QuizView', {index: 0, questionCount, title: deckTitle})}>
+                            <TouchableHighlight style={[styles.button, styles.incorrect]} underlayColor='#336633' onPress={this.startOver}>
                                 <Text style={styles.buttonText}>Start Quiz Over</Text>
                             </TouchableHighlight>
-                            <TouchableHighlight style={[styles.button, styles.incorrect]} underlayColor='#336633' onPress={() => navigation.goBack()}>
+                            <TouchableHighlight style={[styles.button, styles.incorrect]} underlayColor='#336633' onPress={this.goBack}>
                                 <Text style={styles.buttonText}>Back to Deck</Text>
                             </TouchableHighlight>
                         </View>
@@ -160,6 +182,8 @@ class QuizView extends Component {
 
 export default connect(
     (state) => ({
-        questionByIndex: getQuestion(state)
-    })
+        questionByIndex: getQuestion(state),
+        correctAnswerCount: correctAnswerCountSelector(state)
+    }),
+    (dispatch) => bindActionCreators({saveQuizAnswer, clearQuizAnswer}, dispatch)
 ) (QuizView);

@@ -7,6 +7,8 @@ export const getDecks = createSelector(
     state => Object.values(state)
 );
 
+export const correctAnswerCountSelector = state => state.correctAnswers;
+
 export const getDeck = createSelector(
     state => state.decks,
     decks => _.memoize(
@@ -20,5 +22,5 @@ export const getQuestion = createSelector(
         (title, index) => {
             return decks[title].questions[index]
         }
-);
+);;
 

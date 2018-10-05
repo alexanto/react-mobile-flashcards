@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Text, KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { Text, KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, ScrollView } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         backgroundColor: '#fff',
-        height: '100%',
         paddingLeft: 20,
-        paddingRight: 20
+        paddingRight: 20,
+        flex: 1
     },
     question: {
         fontSize: 42,
@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
         marginTop: 80
     },
     input: {
-        width: '100%',
+        alignSelf: 'center',
+        width: 300,
         height: 40,
         borderRadius: 4,
         borderWidth: 2,
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     submit: {
+        alignSelf: 'center',
         backgroundColor: '#000',
         marginTop: 60,
         borderRadius: 4,
@@ -59,7 +61,7 @@ class NewDeckView extends Component {
 
     render() {
         return (
-            <KeyboardAvoidingView style={styles.container} behavior='padding' enabled>
+            <KeyboardAvoidingView style={styles.container} behavior={'position'} enabled>
                 <Text style={styles.question}>What is the title of your new deck?</Text>
                 <TextInput style={styles.input} placeholder='Deck Title' onChangeText={this.handleChange}></TextInput>
                 <TouchableOpacity style={styles.submit} activeOpacity={0.6} onPress={this.handleSubmit}>

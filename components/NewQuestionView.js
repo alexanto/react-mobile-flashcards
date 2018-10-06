@@ -75,6 +75,10 @@ class NewQuestionView extends Component {
         addQuestion(deckTitle, {question, answer});
         this.answerInput.clear();
         this.questionInput.clear();
+        this.setState({
+           question: '',
+           answer: ''
+        });
     };
 
     render() {

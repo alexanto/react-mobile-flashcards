@@ -93,9 +93,6 @@ class QuizView extends Component {
         saveQuizAnswer(isCorrect);
         navigation.navigate('QuizView', {index: index + 1, questionCount, title});
 
-        console.log('index',index);
-        console.log('questionCount', questionCount);
-
         if (questionCount === index + 1) {
             clearLocalNotification()
                 .then(setLocalNotification)

@@ -11,6 +11,7 @@ import {
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addDeck } from "../actions/Actions";
+import { getDeck, getDecks } from "../selectors/Selectors";
 
 const styles = StyleSheet.create({
     container: {
@@ -54,6 +55,12 @@ const styles = StyleSheet.create({
     },
     submitText: {
         color: '#fff'
+    },
+    duplicate: {
+        color: '#ff0000',
+        fontSize: 22,
+        alignSelf: 'center',
+        marginTop: 20
     }
 });
 
@@ -61,25 +68,49 @@ class NewDeckView extends Component {
     constructor() {
         super();
         this.state = {
-           deckTitle: ''
+           deckTitle: '',
+            duplicate: false
         };
     }
 
     handleChange = (e) => {
+        this.checkDuplicate(e);
         this.setState({deckTitle: e});
     };
 
     handleSubmit = () => {
         const {deckTitle} = this.state;
-        this.props.addDeck(deckTitle, this.props.navigation);
+        const duplicate = this.state.duplicate;
+        if(!duplicate) {
+            this.props.addDeck(deckTitle, this.props.navigation);
+        }
+    };
+
+    checkDuplicate = (deckTitle) => {
+        const exists = this.props.deck(deckTitle);
+        if(exists) {
+            this.setState({
+               duplicate: true
+            });
+        } else {
+            this.setState({
+                duplicate: false
+            })
+        }
     };
 
     render() {
-        const disabled = this.state.deckTitle.length === 0;
+        const {duplicate} = this.state;
+        const disabled = this.state.deckTitle.length === 0 || duplicate;
+
         return (
             <KeyboardAvoidingView style={styles.container} behavior={'position'} enabled>
                 <Text style={styles.question}>What is the title of your new deck?</Text>
                 <TextInput style={styles.input} placeholder='Deck Title' onChangeText={this.handleChange}></TextInput>
+                {
+                    (duplicate) &&
+                        <Text style={styles.duplicate}>Title already exists</Text>
+                }
                 <TouchableOpacity  disabled={disabled}  style={disabled? [styles.submit, styles.disabled] : styles.submit} activeOpacity={0.6} onPress={this.handleSubmit}>
                     <Text style={styles.submitText}>Submit</Text>
                 </TouchableOpacity>
@@ -89,6 +120,9 @@ class NewDeckView extends Component {
 }
 
 export default connect(
-    (state) => ({}),
+    (state) => ({
+        decks: getDecks(state),
+        deck: getDeck(state)
+    }),
     (dispatch) => bindActionCreators({addDeck}, dispatch)
 )(NewDeckView);

@@ -11,7 +11,7 @@ import QuizView from "./components/QuizView";
 import NewDeckView from "./components/NewDeckView";
 import { Constants } from 'expo';
 import NewQuestionView from "./components/NewQuestionView";
-
+import { setLocalNotification } from "./utils/helpers";
 
 const Tabs = createMaterialTopTabNavigator(
     {
@@ -64,6 +64,11 @@ const MainNav = createStackNavigator({
 const store = createStore(reducer, applyMiddleware(thunk));
 
 class App extends Component {
+
+    componentDidMount() {
+        setLocalNotification()
+    }
+
     render() {
         return (
             <Provider store={store}>

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { correctAnswerCountSelector, getQuestion } from "../selectors/Selectors";
 import { bindActionCreators } from "redux";
 import { clearQuizAnswer, saveQuizAnswer } from "../actions/Actions";
+import { clearLocalNotification, setLocalNotification } from "../utils/helpers";
 
 const styles = StyleSheet.create({
     container: {
@@ -91,6 +92,14 @@ class QuizView extends Component {
         });
         saveQuizAnswer(isCorrect);
         navigation.navigate('QuizView', {index: index + 1, questionCount, title});
+
+        console.log('index',index);
+        console.log('questionCount', questionCount);
+
+        if (questionCount === index + 1) {
+            clearLocalNotification()
+                .then(setLocalNotification)
+        }
     };
 
     goBack = () => {

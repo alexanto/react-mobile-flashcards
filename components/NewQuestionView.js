@@ -73,6 +73,8 @@ class NewQuestionView extends Component {
         const {question, answer} = this.state;
         const deckTitle = navigation.state.params.deckTitle;
         addQuestion(deckTitle, {question, answer});
+        this.answerInput.clear();
+        this.questionInput.clear();
     };
 
     render() {
@@ -82,8 +84,8 @@ class NewQuestionView extends Component {
 
         return (
             <View style={styles.container}>
-                <TextInput style={styles.input} placeholder='Question' onChangeText={(e) => this.handleChange(e, 'question')}></TextInput>
-                <TextInput style={styles.input} placeholder='Answer' onChangeText={(e) => this.handleChange(e, 'answer')}></TextInput>
+                <TextInput ref={input => { this.answerInput = input }} style={styles.input} placeholder='Question' onChangeText={(e) => this.handleChange(e, 'question')}></TextInput>
+                <TextInput ref={input => { this.questionInput = input }} style={styles.input} placeholder='Answer' onChangeText={(e) => this.handleChange(e, 'answer')}></TextInput>
                 <TouchableOpacity disabled={disabled}  style={disabled? [styles.submit, styles.disabled] : styles.submit} onPress={this.handleSubmit}>
                     <Text style={styles.submitText}>Submit</Text>
                 </TouchableOpacity>

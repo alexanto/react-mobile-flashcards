@@ -59,7 +59,11 @@ class NewDeckView extends Component {
     };
 
     handleSubmit = () => {
-        this.props.addDeck(this.state.deckTitle);
+        const {deckTitle} = this.state;
+        this.props.addDeck(deckTitle);
+        setTimeout(() => {
+            this.props.navigation.navigate('IndividualDeckView', {deckTitle});
+        }, 200);
     };
 
     render() {

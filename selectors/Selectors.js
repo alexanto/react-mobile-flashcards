@@ -11,9 +11,8 @@ export const correctAnswerCountSelector = state => state.correctAnswers;
 
 export const getDeck = createSelector(
     state => state.decks,
-    decks => _.memoize(
-        title => decks.filter(question => question.title === title)
-    )
+    decks =>
+        title => decks[title]
 );
 
 export const getQuestion = createSelector(
@@ -22,5 +21,5 @@ export const getQuestion = createSelector(
         (title, index) => {
             return decks[title].questions[index]
         }
-);;
+);
 

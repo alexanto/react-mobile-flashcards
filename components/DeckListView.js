@@ -34,7 +34,7 @@ class DeckListView extends Component {
         return (
             <ScrollView style={{flex: 1}}>
                 {this.props.decks.map(deck =>
-                    <TouchableOpacity onPress={() => navigation.navigate('IndividualDeckView', {deck})}  style={styles.deck} key={deck.title}>
+                    <TouchableOpacity onPress={() => navigation.navigate('IndividualDeckView', {deckTitle: deck.title})}  style={styles.deck} key={deck.title}>
                             <Text style={styles.title}>{deck.title}</Text>
                             <Text style={styles.count}>{deck.questions.length} questions</Text>
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableHighlight, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import { getDeck } from "../selectors/Selectors";
 
 const styles = StyleSheet.create({
     container: {
@@ -39,23 +41,25 @@ const styles = StyleSheet.create({
 
 class IndividualDeckView extends Component {
     static navigationOptions = ({ navigation }) => {
-        const deck = navigation.state.params.deck;
+        const deckTitle = navigation.state.params.deckTitle;
         return {
-            title: deck.title,
+            title: deckTitle,
             headerStyle: {
                 backgroundColor: '#000'
             },
             headerTintColor: '#fff'
         }
     };
+
     render() {
         const {navigation} = this.props;
-        const deck = navigation.state.params.deck;
+        const deckTitle = navigation.state.params.deckTitle;
+        const deck = this.props.deck(deckTitle);
         const length = deck.questions.length;
 
         return (
             <View style={styles.container}>
-                    <Text style={styles.title}>{deck.title}</Text>
+                    <Text style={styles.title}>{deckTitle}</Text>
                     <Text style={styles.count}>{length} cards</Text>
                 <View style={styles.buttons}>
                     <TouchableHighlight style={styles.button} underlayColor='#d4271b'>
@@ -63,7 +67,7 @@ class IndividualDeckView extends Component {
                             Add Card
                         </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView', {index: 0, questionCount:  length, title: deck.title})}>
+                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView', {index: 0, questionCount:  length, title: deckTitle})}>
                         <Text style={styles.buttonText}>Start Quiz</Text>
                     </TouchableHighlight>
                 </View>
@@ -72,4 +76,8 @@ class IndividualDeckView extends Component {
     }
 }
 
-export default IndividualDeckView;
+export default connect(
+    (state) => ({
+        deck: getDeck(state)
+    })
+)(IndividualDeckView);

@@ -10,6 +10,7 @@ import IndividualDeckView from "./components/IndividualDeckView";
 import QuizView from "./components/QuizView";
 import NewDeckView from "./components/NewDeckView";
 import { Constants } from 'expo';
+import NewQuestionView from "./components/NewQuestionView";
 
 
 const Tabs = createMaterialTopTabNavigator(
@@ -54,6 +55,9 @@ const MainNav = createStackNavigator({
     },
     QuizView: {
         screen: QuizView
+    },
+    NewQuestionView: {
+        screen: NewQuestionView
     }
 });
 

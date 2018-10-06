@@ -4,9 +4,7 @@ import {
     KeyboardAvoidingView,
     StyleSheet,
     TextInput,
-    TouchableOpacity,
-    ScrollView,
-    TouchableHighlight
+    TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

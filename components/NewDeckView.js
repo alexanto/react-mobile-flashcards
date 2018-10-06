@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Text, KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { addDeck } from "../actions/Actions";
 
 const styles = StyleSheet.create({
     container: {
@@ -56,7 +59,7 @@ class NewDeckView extends Component {
     };
 
     handleSubmit = () => {
-        //TODO
+        this.props.addDeck(this.state.deckTitle);
     };
 
     render() {
@@ -72,4 +75,7 @@ class NewDeckView extends Component {
     }
 }
 
-export default NewDeckView;
+export default connect(
+    (state) => ({}),
+    (dispatch) => bindActionCreators({addDeck}, dispatch)
+)(NewDeckView);

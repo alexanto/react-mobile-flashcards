@@ -1,4 +1,4 @@
-import { CLEAR_QUIZ_ANSWERS, LOAD_DECKS, SAVE_QUIZ_ANSWER } from "../actions/Actions";
+import { ADD_DECK, CLEAR_QUIZ_ANSWERS, LOAD_DECKS, SAVE_QUIZ_ANSWER } from "../actions/Actions";
 
 const initialState = {
     decks: {},
@@ -6,7 +6,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-    const { type, decks, isCorrect } = action;
+    const { type, decks, isCorrect, result } = action;
 
     switch(type) {
         case LOAD_DECKS:
@@ -15,6 +15,8 @@ export default (state = initialState, action) => {
             return isCorrect ? {...state, correctAnswers: state.correctAnswers + 1} : state;
         case CLEAR_QUIZ_ANSWERS:
             return {...state, correctAnswers: 0};
+        case ADD_DECK:
+            return {...state, decks: result};
         default:
             return state;
     }

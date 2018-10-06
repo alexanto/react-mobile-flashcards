@@ -32,8 +32,9 @@ const initialState = {
 export function getDecks() {
         return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(results => {
         if(!results) {
-            AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(initialState.decks)).then(() => {
-                return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(JSON.parse);
+            return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(initialState.decks)).then(() => {
+                const temp =  AsyncStorage.getItem(DECKS_STORAGE_KEY);
+                return temp.then(JSON.parse);
             });
 
         } else {
@@ -44,12 +45,14 @@ export function getDecks() {
 }
 
 export function saveDeckTitle(title) {
-    return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
+     return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
         [title]: {
             title,
             questions: []
         }
-    }))
+    })).then(() => {
+         return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(JSON.parse)
+     });
 }
 
 export function addCardToDeck({title, card}) {

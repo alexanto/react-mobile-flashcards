@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Text, KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import {
+    Text,
+    KeyboardAvoidingView,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    ScrollView,
+    TouchableHighlight
+} from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addDeck } from "../actions/Actions";
@@ -41,6 +49,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    disabled: {
+      opacity: 0.6
+    },
     submitText: {
         color: '#fff'
     }
@@ -60,18 +71,16 @@ class NewDeckView extends Component {
 
     handleSubmit = () => {
         const {deckTitle} = this.state;
-        this.props.addDeck(deckTitle);
-        setTimeout(() => {
-            this.props.navigation.navigate('IndividualDeckView', {deckTitle});
-        }, 200);
+        this.props.addDeck(deckTitle, this.props.navigation);
     };
 
     render() {
+        const disabled = this.state.deckTitle.length === 0;
         return (
             <KeyboardAvoidingView style={styles.container} behavior={'position'} enabled>
                 <Text style={styles.question}>What is the title of your new deck?</Text>
                 <TextInput style={styles.input} placeholder='Deck Title' onChangeText={this.handleChange}></TextInput>
-                <TouchableOpacity style={styles.submit} activeOpacity={0.6} onPress={this.handleSubmit}>
+                <TouchableOpacity  disabled={disabled}  style={disabled? [styles.submit, styles.disabled] : styles.submit} activeOpacity={0.6} onPress={this.handleSubmit}>
                     <Text style={styles.submitText}>Submit</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>

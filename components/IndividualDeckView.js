@@ -36,6 +36,9 @@ const styles = StyleSheet.create({
     buttons: {
         marginTop: 'auto',
         marginBottom: 60
+    },
+    disabled: {
+        opacity: 0.6
     }
 });
 
@@ -56,6 +59,7 @@ class IndividualDeckView extends Component {
         const deckTitle = navigation.state.params.deckTitle;
         const deck = this.props.deck(deckTitle);
         const length = deck.questions.length;
+        const disabled = length === 0;
 
         return (
             <View style={styles.container}>
@@ -67,7 +71,7 @@ class IndividualDeckView extends Component {
                             Add Card
                         </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight  style={styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView', {index: 0, questionCount:  length, title: deckTitle})}>
+                    <TouchableHighlight disabled={disabled}  style={disabled? [styles.button, styles.disabled] : styles.button} underlayColor='#d4271b' onPress={() => navigation.navigate('QuizView', {index: 0, questionCount:  length, title: deckTitle})}>
                         <Text style={styles.buttonText}>Start Quiz</Text>
                     </TouchableHighlight>
                 </View>

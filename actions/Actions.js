@@ -16,13 +16,14 @@ export function loadDecks() {
     }
 }
 
-export function addDeck(title) {
+export function addDeck(deckTitle, navigation) {
     return (dispatch) => {
-        return helpers.saveDeckTitle(title).then(result => {
+        return helpers.saveDeckTitle(deckTitle).then(result => {
             dispatch({
                 type: ADD_DECK,
                 result
             });
+            navigation.navigate('IndividualDeckView', {deckTitle});
         });
     }
 }
